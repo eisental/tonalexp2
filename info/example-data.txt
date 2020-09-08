@@ -1,0 +1,26 @@
+פרטים: 
+מספר ניסוי: 1
+מספר נבדק: 2222
+גיל: 1
+מין: נקבה
+שנות לימוד ביצוע מוזיקאלי: 0
+שנות לימוד תיאוריה מוזיקאלית: 1
+שמיעה אבסולוטית: כן
+מוזיקאי?: לא
+שפת אם: nativelanguage
+כלי נגינה או פעילות מוזיקאלית: musicalactivity
+
+תשובות:
+
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Abm.wav	9	1	71.2471607	1	3	4	5	2	0.96	0.99	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Am.wav	12	1	34.923569	1	3	4	5	2	1.00	1.00	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Bbm.wav	7	1	45.6440728	1	3	4	5	2	-0.97	-0.97	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Bm.wav	1	1	45.8341874	1	3	4	5	2	0.99	0.98	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	C#m.wav	6	1	34.3183339	1	3	4	5	2	0.98	-0.99	מלוח
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Cm.wav	5	1	52.244988	1	3	4	5	2	0.97	0.99	מר
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Dm.wav	11	1	40.9571306	1	3	4	5	2	-1.00	1.00	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Ebm.wav	3	1	46.9414876	1	3	4	5	2	-0.99	-0.97	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Em.wav	4	1	39.9560629	1	3	4	5	2	-0.99	0.99	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	F#m.wav	10	1	57.0300311	1	3	4	5	2	-0.99	-0.98	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Fm.wav	2	1	36.5037821	1	3	4	5	2	0.99	-0.99	מתוק
+2222	1	נקבה	לא	0	1	כן	nativelanguage	musicalactivity	Gm.wav	8	1	43.4290119	1	3	4	5	2	-0.97	0.99	מתוק

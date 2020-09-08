@@ -1,0 +1,108 @@
+.chordSelection {
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chordBtn{
+  background-color:  #e7e7e7;; 
+  border: 1px black solid;
+  color: black;
+  width: 170px;
+  height: 110px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+.chordBtn:disabled {
+  color: darkgray;
+}
+
+.chordBtn:active {
+    background-color: darkgray;
+}
+
+.chordBtn p {
+    margin-bottom: 0;
+}
+
+.plusSign{
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 120px;
+  font-weight: 100;
+  padding: 50px 100px 50px 100px;
+}
+
+label {
+    margin-left: 0.5em;
+}
+
+input {
+    margin-left: 0.5em;
+}
+
+.xycanvas {
+    vertical-align: middle;
+}
+
+.yaxis-label {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.xaxis-label {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.error {
+    color: red;
+    margin: 1.5rem;
+    text-align: center
+}
+
+.infotext {
+    margin-top: 4rem;
+}
+
+.breathing-top {
+    margin-top: 4rem;
+}
+
+.tiny-breathing-top {
+    margin-top: 1rem;
+}
+
+.trial-question {
+    margin-bottom: 1em;
+    padding: 5px;
+    border-color: lightgray;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.trial-question label {
+    vertical-align: middle;
+    margin-bottom: 0;
+}
+
+.trial-question label p {
+    margin-bottom: 0;
+}
+
+.trial-question select {
+    width: 4em
+}
+
+.trial-question .xy-label {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.second-experiment-question select {
+    width: 4em
+}
