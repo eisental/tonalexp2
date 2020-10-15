@@ -15,7 +15,7 @@ export class SecondExperiment extends React.Component {
   ls_prefix = "second_experiment_"
 
   state = {
-    trial_idx: 22,
+    trial_idx: 0,
     show_info: true,
     on_pause: false,
     is_playing: true,

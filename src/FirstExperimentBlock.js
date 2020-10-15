@@ -13,7 +13,7 @@ export class FirstExperimentBlock extends React.Component {
   ls_prefix = "first_experiment_block_"
 
   state = {
-    trial_idx: 11,
+    trial_idx: 0,
     on_pause: false,
     is_playing: true,
   }

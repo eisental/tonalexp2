@@ -1,13 +1,14 @@
 import React from 'react';
 import './Experiment.css';
 import ls from 'local-storage';
-import { LoadingScreen, ErrorScreen } from './ui.js';
+import { LoadingScreen, ErrorScreen, InfoScreen } from './ui.js';
 import { SessionEvent, does_user_sheet_exists, read_subject_data, writeSessionEvent, readSessionData } from './sessions.js';
 import { LoginScreen, FormScreen } from './login.js';
 import gs from './spreadsheet_io.js';
 import { FirstExperiment } from './FirstExperiment.js';
 import { SecondExperiment } from './SecondExperiment.js';
 import { other_instrument, str_to_instrument, music_key_to_idx } from './audio_mapping.js';
+import { intro_texts } from './texts.js';
 
 const FinishScreen = ({data, done_saving}) => {
   return (
@@ -33,10 +34,11 @@ class App extends React.Component {
 
   steps = {
     LOGIN: 1,
-    FORM: 2,
-    EXPERIMENT1: 3,
-    EXPERIMENT2: 4,
-    FINISH: 5,
+    INTRO: 2,
+    FORM: 3,
+    EXPERIMENT1: 4,
+    EXPERIMENT2: 5,
+    FINISH: 6,
   }
 
   state = {
@@ -62,6 +64,12 @@ class App extends React.Component {
     }
     else if (step === this.steps.FORM) {
       ls.set("data", this.data);
+    }
+    else if (new_step === this.steps.FORM) {
+      // Skip form on second session.
+      if (this.data.session_number === 2) {
+        return new_step + 1;
+      }
     }
     else if (new_step === this.steps.EXPERIMENT2) {
       // Show second experiment only on second session
@@ -229,10 +237,6 @@ class App extends React.Component {
     console.log("Starting new session. Clearing local storage");
     ls.clear();
     ls.set("data", this.data);
-
-    if (number === 2) {
-      this.setStep(this.steps.FORM + 1);
-    }
   }
 
   continueSession(number) {
@@ -279,6 +283,8 @@ class App extends React.Component {
       switch(step) {
       case this.steps.LOGIN: 
         return <LoginScreen next={this.nextStep} data={this.data} key={step} />;
+      case this.steps.INTRO:
+        return <InfoScreen next={this.nextStep} info={intro_texts[this.data.session_number-1]} key={step} />;
       case this.steps.FORM:
         return <FormScreen next={this.nextStep} data={this.data} key={step} />;
       case this.steps.EXPERIMENT1:

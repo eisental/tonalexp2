@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContinueButton, ComboBox } from './ui.js';
-import { intro_text } from './texts.js';
+import { login_text } from './texts.js';
 
 const zero2hundred_options = [...Array(101).keys()].map(i => i);
 const one2hundred_options = [...Array(100).keys()].map(i => i+1);
@@ -14,8 +14,8 @@ export const LoginScreen = ({next, data}) => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-8 offset-2 breathing-top">
-          {intro_text}
+        <div className="col-8 offset-2 breathing-top text-center">
+          {login_text}
         </div>
       </div>
       <div className="row">
@@ -167,3 +167,4 @@ export const FormScreen = ({next, data}) => {
     </div>
   );
 };
+
