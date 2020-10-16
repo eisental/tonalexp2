@@ -19,7 +19,7 @@ export const parseSessions = (data) => {
       id: session_event[0],
       number: session_event[1],
       event: session_event[2],
-      time: session_event[4],
+      time: session_event[3],
     };
     sessions.push(session);
   });

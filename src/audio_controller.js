@@ -20,7 +20,7 @@ export class AudioController {
         if (this.onAudioEnded) this.onAudioEnded(id);
       }), false);
       p.onerror = e => {
-        console.log("Error loading audio file: " + id);
+        console.log("Error loading audio file: " + id + " (error code: " + p.error.code + ").");
       };
 
       this.players.push(p);

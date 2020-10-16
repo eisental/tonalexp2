@@ -1,14 +1,16 @@
 import React from 'react';
 import './Experiment.css';
 import ls from 'local-storage';
-import { LoadingScreen, ErrorScreen, InfoScreen } from './ui.js';
+import { LoadingScreen, ContinueButton, ErrorScreen, InfoScreen } from './ui.js';
 import { SessionEvent, does_user_sheet_exists, read_subject_data, writeSessionEvent, readSessionData } from './sessions.js';
 import { LoginScreen, FormScreen } from './login.js';
 import gs from './spreadsheet_io.js';
 import { FirstExperiment } from './FirstExperiment.js';
 import { SecondExperiment } from './SecondExperiment.js';
 import { other_instrument, str_to_instrument, music_key_to_idx } from './audio_mapping.js';
-import { intro_texts } from './texts.js';
+import { intro_texts, before_break_text, after_break_text } from './texts.js';
+
+const BREAK_LENGTH = 10 * 60; // break between experiment 1 and 2 in minutes.
 
 const FinishScreen = ({data, done_saving}) => {
   return (
@@ -20,6 +22,79 @@ const FinishScreen = ({data, done_saving}) => {
         <p>{done_saving ? "הנתונים נשמרו בהצלחה!" : "אנא המתינו לשמירת הנתונים..."}</p>
       </div>
     </div>
+  );
+};
+
+const FeedbackScreen = ({next, data}) => {
+  const save_data = () => {
+    const experience_question = document.getElementById('experience_question').value;
+    const dialog_question = document.getElementById('dialog_question').value;
+    const td = {
+      time: new Date().toString(),
+      experience_question: experience_question,
+      dialog_question: dialog_question
+    };
+    data.trials.push(td);
+    ls.set("data", data);
+    next();
+  };
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-8 offset-2 breathing-top">
+          <label htmlFor="experience_question">כתבו כאן כל דבר הנוגע לניסוי ולחוויתכם במהלכו שנראה לכם ראוי לציון:</label>
+          <textarea id="experience_question" rows="5" cols="70"/>
+
+          <label htmlFor="dialog_question">מהו לדעתכם העקרון לפיו נוצרו ה"דיאלוגים" בניסוי? מה ההבדל ביניהם? (ניתן לכתוב "לא יודע/ת"):</label>
+          <textarea id="dialog_question" rows="5" cols="70"/>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-8 offset-2 text-center">
+          <ContinueButton next={save_data} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BreakScreen = ({next}) => {
+  const [disabled, setDisabled] = React.useState(true);
+  const [step, setStep] = React.useState(0);
+  
+  React.useEffect(() => { // run once
+    const cont_step = ls.get("break_step");
+    if (cont_step !== null) {
+      console.log("cont" + cont_step);
+      setStep(cont_step);
+      setDisabled(ls.get("break_disabled"));
+    }
+    else {
+      ls.set("break_step", 0);
+      ls.set("break_disabled", true);
+    }
+  }, []);
+
+  const next_screen = () => {
+    if (step === 0) {
+      setStep(1);
+      ls.set("break_step", 1);
+    }
+    else {
+      next();
+    }
+  };
+
+  setTimeout(() => { 
+    setDisabled(false);
+    ls.set("break_disabled", false);
+  }, 1000 * BREAK_LENGTH);
+
+  const cur_text = step === 0 ? before_break_text : after_break_text;
+
+  return (
+    <InfoScreen info={cur_text} next={next_screen} continue_disabled={disabled}/>
   );
 };
 
@@ -37,8 +112,10 @@ class App extends React.Component {
     INTRO: 2,
     FORM: 3,
     EXPERIMENT1: 4,
-    EXPERIMENT2: 5,
-    FINISH: 6,
+    BREAK: 5,
+    EXPERIMENT2: 6,
+    FEEDBACK: 7,
+    FINISH: 8,
   }
 
   state = {
@@ -60,7 +137,6 @@ class App extends React.Component {
   stepWillChange = (step, new_step) => {
     if (step === this.steps.LOGIN) {
       this.handleLogin();
-      this.openFullscreen();
     }
     else if (step === this.steps.FORM) {
       ls.set("data", this.data);
@@ -71,10 +147,10 @@ class App extends React.Component {
         return new_step + 1;
       }
     }
-    else if (new_step === this.steps.EXPERIMENT2) {
-      // Show second experiment only on second session
+    else if (new_step === this.steps.BREAK) {
+      // Show second experiment and break only on second session
       if (this.data.session_number === 1)
-        return this.steps.EXPERIMENT2 + 1;
+        return this.steps.FINISH;
     }
 
     return null;
@@ -135,19 +211,6 @@ class App extends React.Component {
     }
   }
 
-  openFullscreen = () => {
-    const elem = document.documentElement;
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      elem.msRequestFullscreen();
-    }
-  }
-
   check_for_subject_sheet = () => {
     return does_user_sheet_exists(this.conn, this.data.id)
       .then(sheet_exists => {
@@ -202,6 +265,8 @@ class App extends React.Component {
                   else {
                     // Not first session or continued session.
                     const last_session = previous_sessions[previous_sessions.length-1];
+                    console.log("last_session:");
+                    console.log(last_session);
                     const last_session_number = parseInt(last_session.number);
                     if (last_session.event !== SessionEvent.SESSION_END) {
                       // Continue session
@@ -226,6 +291,7 @@ class App extends React.Component {
   }
 
   startNewSession(number) {
+    console.log("start new session: " + number);
     this.data.session_number = number;
     writeSessionEvent(this.conn, this.data, SessionEvent.SESSION_START);
     this.setState({loading: false});
@@ -240,6 +306,7 @@ class App extends React.Component {
   }
 
   continueSession(number) {
+    console.log("continue session: " + number);
     // try to recover from local storage
     const cont_data = ls.get("data");
 
@@ -247,7 +314,6 @@ class App extends React.Component {
       console.log("Loading from local storage...");
       
       this.data = cont_data;
-      
       writeSessionEvent(this.conn, this.data, SessionEvent.SESSION_CONTINUED);
       this.setState({loading: false});
       
@@ -288,9 +354,13 @@ class App extends React.Component {
       case this.steps.FORM:
         return <FormScreen next={this.nextStep} data={this.data} key={step} />;
       case this.steps.EXPERIMENT1:
-        return <FirstExperiment data={this.data} next={this.nextStep} key={step}/>;
+        return <FirstExperiment data={this.data} next={this.nextStep} key={step} />;
+      case this.steps.BREAK:
+        return <BreakScreen next={this.nextStep} key={step} />;
       case this.steps.EXPERIMENT2:
-        return <SecondExperiment data={this.data} next={this.nextStep} key={step}/>;
+        return <SecondExperiment data={this.data} next={this.nextStep} key={step} />;
+      case this.steps.FEEDBACK:
+        return <FeedbackScreen next={this.nextStep} data={this.data} key={step} />;
       case this.steps.FINISH:
         return <FinishScreen done_saving={this.state.done_saving} key={step} />;
       default:

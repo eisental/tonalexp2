@@ -36,7 +36,7 @@ export const music_key_to_idx = {
 
 const audio_ext = ".mp3";
 
-const base_audio_dir = "audio/";
+const base_audio_dir = "/tonalexp/audio/";
 const pause_dir = "pause/";
 const instrument_dir = {
   [Instrument.PIANO]: "piano/",
