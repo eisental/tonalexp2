@@ -87,11 +87,13 @@ export class SecondExperiment extends React.Component {
 
   nextTrial = () => {
     this.setState({on_pause: false});
+    this.start_time = new Date().getTime();
     this.playTrial(this.state.trial_idx);
   }
 
   startTrials = () => {
     this.setState({show_info: false});
+    this.start_time = new Date().getTime();
     this.playTrial(this.state.trial_idx);
 
     ls.set(this.ls_prefix + "show_info", false);
@@ -99,7 +101,9 @@ export class SecondExperiment extends React.Component {
 
   startPause = () => {
     const { trial_idx } = this.state;
+    const trial_data = this.data.trials[trial_idx];
 
+    trial_data.RT = new Date().getTime() - this.start_time;
     ls.set("data", this.data);
 
     if (trial_idx < this.num_trials - 1) {

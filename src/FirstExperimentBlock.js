@@ -37,8 +37,10 @@ export class FirstExperimentBlock extends React.Component {
     else {
       const all_audio = trial_audio_paths(this.data.cur_instrument);
       const first_audio = all_audio[this.data.first_key];
-      const rest_audio = shuffleArray(all_audio).filter(a => a !== first_audio);
-      this.trial_sequence = [first_audio].concat(rest_audio);
+      const second_audio = all_audio[this.data.first_key == 5 ? 11 : 5];
+        
+      const rest_audio = shuffleArray(all_audio).filter(a => a !== first_audio && a !== second_audio);
+      this.trial_sequence = [first_audio, second_audio].concat(rest_audio);
       this.pause_sequence = shuffleArray(pause_audio_paths);
 
       ls.set(this.ls_prefix + "trial_sequence", this.trial_sequence);
@@ -70,6 +72,7 @@ export class FirstExperimentBlock extends React.Component {
   }
 
   componentDidMount() {
+    this.start_time = new Date().getTime();
     this.playTrial(this.state.trial_idx);
   }
 
@@ -77,6 +80,7 @@ export class FirstExperimentBlock extends React.Component {
     const { trial_idx } = this.state;
 
     this.setState({on_pause: false});
+    this.start_time = new Date().getTime();
     this.playTrial(trial_idx);
   }
 
@@ -87,7 +91,9 @@ export class FirstExperimentBlock extends React.Component {
 
   startPause = () => {
     const { trial_idx } = this.state;
+    const trial_data = this.data.trials[trial_idx];
 
+    trial_data.RT = new Date().getTime() - this.start_time;
     ls.set("data", this.data);
 
     if (trial_idx < this.trial_num - 1) {

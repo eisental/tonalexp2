@@ -18,7 +18,7 @@ const FinishScreen = ({data, done_saving}) => {
       <div className="col-md-8 offset-md-2 finish-screen text-center">
         <h1>תודה רבה על השתתפותכם בניסוי</h1>
         <br/>
-        <h1>אנא התקשרו לנסיין</h1>
+        <h1>אנא צרו קשר עם הנסיין</h1>
         <p>{done_saving ? "הנתונים נשמרו בהצלחה!" : "אנא המתינו לשמירת הנתונים..."}</p>
       </div>
     </div>
