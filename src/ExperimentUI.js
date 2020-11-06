@@ -11,6 +11,7 @@ class XYselection extends React.Component {
   constructor({width, height, disabled, onUpdate}) {
     super();
     this.canvasRef = React.createRef();
+    this.state = {show_confirm: false};
   }
 
   componentDidMount() {
@@ -38,7 +39,7 @@ class XYselection extends React.Component {
   }
   
   canvas_click = (e) => {
-    const {onUpdate, disabled, width, height} = this.props;
+    const {onUpdate, onCancel, disabled, width, height} = this.props;
     if (disabled)
       return;
 
@@ -57,22 +58,54 @@ class XYselection extends React.Component {
     this.ctx.fillStyle = "#007bff";
     this.ctx.fill();
 
-    if (onUpdate)
-      onUpdate(x, y);
+    this.current_x = x;
+    this.current_y = y;
+
+    this.setState({show_confirm: true});
+    /*
+    if (window.confirm("האם את/ה בטוח/ה?")) {
+      this.prev_px = px;
+      this.prev_py = py;
+
+      if (onUpdate)
+        onUpdate(x, y);      
+    }
+    else {
+      this.ctx.clearRect(0, 0, width, height);
+      this.draw_axes();
+
+      if (this.current_px) {
+        this.ctx.beginPath();
+        this.ctx.arc(this.prev_px, this.prev_py, 8, 0, 2*Math.PI);
+        this.ctx.fillStyle = "#007bff";
+        this.ctx.fill();
+      }
+    }
+    */
   }
 
   render() {
     const {width, height} = this.props;
+    const confirm_div = !this.state.show_confirm ? null : (
+          <div className="modal" id="confirm-dialog">
+            <div className="modal-body">
+              האם את/ה בטוח/ה?
+            </div>
+          </div>
+    );
 
     return (
-      <div className="text-center xy-selection">
-        <p className="yaxis-label">מלא אנרגיה</p>
-        <span className="xaxis-label">רגשות חיוביים</span>
-        <canvas className="xycanvas" ref={this.canvasRef} width={width} height={height} onClick={this.canvas_click}/>
-        <span className="xaxis-label">רגשות שליליים</span>
-        <p className="yaxis-label">חסר אנרגיה</p>
-      </div>
-      
+      <React.Fragment>
+        <div className="text-center xy-selection">
+          <p className="yaxis-label">מלא אנרגיה</p>
+          <span className="xaxis-label">רגשות חיוביים</span>
+          <canvas className="xycanvas" ref={this.canvasRef} width={width} height={height} onClick={this.canvas_click}/>
+          <span className="xaxis-label">רגשות שליליים</span>
+          <p className="yaxis-label">חסר אנרגיה</p>
+        </div>
+        {confirm_div}
+
+      </React.Fragment>
     );
   }
 };
@@ -202,7 +235,7 @@ export const SecondExperimentTrialUI = ({next, replay, trial_data, disable_butto
 
     Object.assign(trial_data, {
       time: new Date().toString(),
-      question_1: answer,
+      musical_question: answer,
     });
 
     next();

@@ -13,7 +13,7 @@ export class FirstExperimentBlock extends React.Component {
   ls_prefix = "first_experiment_block_"
 
   state = {
-    trial_idx: 0,
+    trial_idx: 10,
     on_pause: false,
     is_playing: true,
   }
@@ -73,6 +73,7 @@ export class FirstExperimentBlock extends React.Component {
 
   componentDidMount() {
     this.start_time = new Date().getTime();
+    this.play_count = 0
     this.playTrial(this.state.trial_idx);
   }
 
@@ -81,10 +82,12 @@ export class FirstExperimentBlock extends React.Component {
 
     this.setState({on_pause: false});
     this.start_time = new Date().getTime();
+    this.play_count = 0
     this.playTrial(trial_idx);
   }
 
   playTrial = (trial_idx) => {
+    this.play_count += 1
     this.audio_controller.play(this.trial_sequence[trial_idx]);
     this.setState({is_playing: true});
   }
@@ -94,6 +97,8 @@ export class FirstExperimentBlock extends React.Component {
     const trial_data = this.data.trials[trial_idx];
 
     trial_data.RT = new Date().getTime() - this.start_time;
+    trial_data.play_count = this.play_count
+
     ls.set("data", this.data);
 
     if (trial_idx < this.trial_num - 1) {

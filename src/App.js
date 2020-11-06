@@ -43,6 +43,7 @@ const FeedbackScreen = ({next, data}) => {
     <div className="container">
       <div className="row">
         <div className="col-8 offset-2 breathing-top">
+          <p>לפני סיום, נבקשכם לענות על שתי שאלות הקשורות לחוויה הכוללת של ההשתתפות בניסוי.</p>
           <label htmlFor="experience_question">כתבו כאן כל דבר הנוגע לניסוי ולחוויתכם במהלכו שנראה לכם ראוי לציון:</label>
           <textarea id="experience_question" rows="5" cols="70"/>
 
