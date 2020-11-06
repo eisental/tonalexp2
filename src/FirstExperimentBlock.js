@@ -13,7 +13,7 @@ export class FirstExperimentBlock extends React.Component {
   ls_prefix = "first_experiment_block_"
 
   state = {
-    trial_idx: 10,
+    trial_idx: 0,
     on_pause: false,
     is_playing: true,
   }
@@ -37,7 +37,7 @@ export class FirstExperimentBlock extends React.Component {
     else {
       const all_audio = trial_audio_paths(this.data.cur_instrument);
       const first_audio = all_audio[this.data.first_key];
-      const second_audio = all_audio[this.data.first_key == 5 ? 11 : 5];
+      const second_audio = all_audio[this.data.first_key === 5 ? 11 : 5];
         
       const rest_audio = shuffleArray(all_audio).filter(a => a !== first_audio && a !== second_audio);
       this.trial_sequence = [first_audio, second_audio].concat(rest_audio);

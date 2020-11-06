@@ -4,6 +4,10 @@ import { Button, ContinueButton, ComboBox } from './ui.js';
 import { second_experiment_question, 
          second_experiment_hear_again } from './texts.js';
 
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import './confirm-alert.css';
+
 const numbered_options = [...Array(9).keys()].map(i => i+1);
 const taste_options = ["מתוק", "חמוץ", "מר", "מלוח"];
 
@@ -11,7 +15,6 @@ class XYselection extends React.Component {
   constructor({width, height, disabled, onUpdate}) {
     super();
     this.canvasRef = React.createRef();
-    this.state = {show_confirm: false};
   }
 
   componentDidMount() {
@@ -58,41 +61,39 @@ class XYselection extends React.Component {
     this.ctx.fillStyle = "#007bff";
     this.ctx.fill();
 
-    this.current_x = x;
-    this.current_y = y;
-
-    this.setState({show_confirm: true});
-    /*
-    if (window.confirm("האם את/ה בטוח/ה?")) {
+    const confirm_update = () => {
       this.prev_px = px;
       this.prev_py = py;
 
       if (onUpdate)
         onUpdate(x, y);      
-    }
-    else {
+    };
+
+    const cancel_update = () => {
       this.ctx.clearRect(0, 0, width, height);
       this.draw_axes();
 
-      if (this.current_px) {
+      if (this.prev_px) {
         this.ctx.beginPath();
         this.ctx.arc(this.prev_px, this.prev_py, 8, 0, 2*Math.PI);
         this.ctx.fillStyle = "#007bff";
         this.ctx.fill();
       }
-    }
-    */
+    };
+    
+    confirmAlert({
+      message: "האם את/ה בטוח/ה?",
+      buttons: [
+        { label: "כן", onClick: confirm_update },
+        { label: "לא", onClick: cancel_update }
+      ],
+      onClickOutside: cancel_update,
+      closeOnEscape: false
+    });
   }
 
   render() {
     const {width, height} = this.props;
-    const confirm_div = !this.state.show_confirm ? null : (
-          <div className="modal" id="confirm-dialog">
-            <div className="modal-body">
-              האם את/ה בטוח/ה?
-            </div>
-          </div>
-    );
 
     return (
       <React.Fragment>
@@ -103,7 +104,6 @@ class XYselection extends React.Component {
           <span className="xaxis-label">רגשות שליליים</span>
           <p className="yaxis-label">חסר אנרגיה</p>
         </div>
-        {confirm_div}
 
       </React.Fragment>
     );

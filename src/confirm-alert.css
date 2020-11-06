@@ -1,0 +1,13 @@
+.react-confirm-alert-body {
+    text-align: center;
+    width: 300px;
+    padding: 35px;                
+}
+
+.react-confirm-alert-button-group {
+    justify-content: center;
+}
+
+.react-confirm-alert-overlay {
+    animation: react-confirm-alert-fadeIn 0.3s 0.1s forwards;
+}
