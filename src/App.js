@@ -10,7 +10,7 @@ import { SecondExperiment } from './SecondExperiment.js';
 import { other_instrument, str_to_instrument, music_key_to_idx } from './audio_mapping.js';
 import { intro_texts, before_break_text, after_break_text } from './texts.js';
 
-const BREAK_LENGTH = 10 * 60; // break between experiment 1 and 2 in minutes.
+const BREAK_LENGTH = 10 * 60; // break length between experiment 1 and 2 in seconds.
 
 const FinishScreen = ({data, done_saving}) => {
   return (
@@ -205,7 +205,6 @@ class App extends React.Component {
       gs.write(this.conn, this.data.id, this.data.trials)
         .then(res => { 
           that.setState({done_saving: true});
-          ls.clear(); 
           writeSessionEvent(this.conn, this.data, SessionEvent.SESSION_END);
         })
         .catch(this.dataSaveError);
@@ -266,8 +265,6 @@ class App extends React.Component {
                   else {
                     // Not first session or continued session.
                     const last_session = previous_sessions[previous_sessions.length-1];
-                    console.log("last_session:");
-                    console.log(last_session);
                     const last_session_number = parseInt(last_session.number);
                     if (last_session.event !== SessionEvent.SESSION_END) {
                       // Continue session
