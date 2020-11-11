@@ -1,7 +1,7 @@
 import React from 'react';
 import './Experiment.css';
 import ls from 'local-storage';
-import { LoadingScreen, ContinueButton, ErrorScreen, InfoScreen } from './ui.js';
+import { LoadingScreen, ContinueButton, ErrorScreen, InfoScreen, openFullscreen } from './ui.js';
 import { SessionEvent, does_user_sheet_exists, read_subject_data, writeSessionEvent, readSessionData } from './sessions.js';
 import { LoginScreen, FormScreen } from './login.js';
 import gs from './spreadsheet_io.js';
@@ -79,6 +79,7 @@ const BreakScreen = ({next}) => {
 
   const next_screen = () => {
     if (step === 0) {
+      openFullscreen();
       setStep(1);
       ls.set("break_step", 1);
     }

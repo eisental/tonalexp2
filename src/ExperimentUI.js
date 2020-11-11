@@ -42,7 +42,7 @@ class XYselection extends React.Component {
   }
   
   canvas_click = (e) => {
-    const {onUpdate, onCancel, disabled, width, height} = this.props;
+    const {onUpdate, disabled, width, height} = this.props;
     if (disabled)
       return;
 

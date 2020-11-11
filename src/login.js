@@ -1,22 +1,9 @@
 import React from 'react';
-import { ContinueButton, ComboBox } from './ui.js';
+import { ContinueButton, ComboBox, openFullscreen } from './ui.js';
 import { login_text } from './texts.js';
 
 const zero2hundred_options = [...Array(101).keys()].map(i => i);
 const one2hundred_options = [...Array(100).keys()].map(i => i+1);
-
-export const openFullscreen = () => {
-  const elem = document.documentElement;
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.mozRequestFullScreen) { /* Firefox */
-    elem.mozRequestFullScreen();
-  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { /* IE/Edge */
-    elem.msRequestFullscreen();
-  }
-};
 
 export const LoginScreen = ({next, data}) => {
   const handleContinue = () => {
