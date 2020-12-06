@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/tonalexp2/static/css/main.63eef745.chunk.css",
+    "main.js": "/tonalexp2/static/js/main.4e9d91d0.chunk.js",
+    "main.js.map": "/tonalexp2/static/js/main.4e9d91d0.chunk.js.map",
+    "runtime-main.js": "/tonalexp2/static/js/runtime-main.9490d392.js",
+    "runtime-main.js.map": "/tonalexp2/static/js/runtime-main.9490d392.js.map",
+    "static/css/2.627926fe.chunk.css": "/tonalexp2/static/css/2.627926fe.chunk.css",
+    "static/js/2.8ffa1817.chunk.js": "/tonalexp2/static/js/2.8ffa1817.chunk.js",
+    "static/js/2.8ffa1817.chunk.js.map": "/tonalexp2/static/js/2.8ffa1817.chunk.js.map",
+    "index.html": "/tonalexp2/index.html",
+    "precache-manifest.d280037cefc295118546ea4f63b3f095.js": "/tonalexp2/precache-manifest.d280037cefc295118546ea4f63b3f095.js",
+    "service-worker.js": "/tonalexp2/service-worker.js",
+    "static/css/2.627926fe.chunk.css.map": "/tonalexp2/static/css/2.627926fe.chunk.css.map",
+    "static/css/main.63eef745.chunk.css.map": "/tonalexp2/static/css/main.63eef745.chunk.css.map",
+    "static/js/2.8ffa1817.chunk.js.LICENSE.txt": "/tonalexp2/static/js/2.8ffa1817.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9490d392.js",
+    "static/css/2.627926fe.chunk.css",
+    "static/js/2.8ffa1817.chunk.js",
+    "static/css/main.63eef745.chunk.css",
+    "static/js/main.4e9d91d0.chunk.js"
+  ]
+}
