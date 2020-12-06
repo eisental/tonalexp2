@@ -36,7 +36,7 @@ export const music_key_to_idx = {
 
 const audio_ext = ".mp3";
 
-const base_audio_dir = "/tonalexp/audio/";
+const base_audio_dir = "/tonalexp2/audio/";
 const pause_dir = "pause/";
 const instrument_dir = {
   [Instrument.PIANO]: "piano/",
@@ -45,33 +45,33 @@ const instrument_dir = {
 
 const trial_audio = {
   [Instrument.PIANO]: [
-    "CM-FF",
-    "DbM-FF",
-    "DM-FF",
-    "EbM-FF",
-    "EM-FF",
-    "FM-FF",
-    "GbM-FF",
-    "GM-FF",
-    "AbM-FF",
-    "AM-FF",
-    "BbM-FF",
-    "BM-FF",
+    "Cm",
+    "Dbm",
+    "Dm",
+    "Ebm",
+    "Em",
+    "Fm",
+    "Gbm",
+    "Gm",
+    "Abm",
+    "Am",
+    "Bbm",
+    "Bm",
   ],
 
   [Instrument.STRINGS]: [
-    "CM_str-FF",
-    "DbM_str-FF",
-    "DM_str-FF",
-    "EbM_str-FF",
-    "EM_str-FF",
-    "FM_str-FF",
-    "GbM_str-FF",
-    "GM_str-FF",
-    "AbM_str-FF",
-    "AM_str-FF",
-    "BbM_str-FF",
-    "BM_str-FF",
+    "Cm_str",
+    "Dbm_str",
+    "Dm_str",
+    "Ebm_str",
+    "Em_str",
+    "Fm_str",
+    "Gbm_str",
+    "Gm_str",
+    "Abm_str",
+    "Am_str",
+    "Bbm_str",
+    "Bm_str",
   ],
 };
 
