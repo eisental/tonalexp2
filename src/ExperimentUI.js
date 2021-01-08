@@ -110,7 +110,7 @@ class XYselection extends React.Component {
   }
 };
 
-export const FirstExperimentTrialUI = ({next, replay, trial_data, question_order, disable_buttons}) => {
+export const FirstExperimentTrialUI = ({next, replay, trial_data, question_order, disable_buttons, disable_questions}) => {
   const [error, setError] = React.useState(null);
   const [emotion_value, setEmotion] = React.useState(null);
   const [energy_value, setEnergy] = React.useState(null);
@@ -118,7 +118,7 @@ export const FirstExperimentTrialUI = ({next, replay, trial_data, question_order
   const ordered_questions = question_order.map(i => (
     <div className="trial-question" key={i}>
       <label htmlFor={"ordered"+i}>{questions_text.ordered_questions[i]}</label>
-      <ComboBox id={"ordered"+i} options={numbered_options} disabled={disable_buttons} />
+      <ComboBox id={"ordered"+i} options={numbered_options} disabled={disable_questions} prevent_keypress={true}/>
     </div>
   ));
 
@@ -186,7 +186,7 @@ export const FirstExperimentTrialUI = ({next, replay, trial_data, question_order
         <div className="col-12">
           <div className="trial-question">
             <label htmlFor="first_question">{questions_text.first_question}</label>
-            <ComboBox id="first_question" options={numbered_options} disabled={disable_buttons}/>          
+            <ComboBox id="first_question" options={numbered_options} disabled={disable_questions} prevent_keypress={true}/> 
           </div>
 
           {ordered_questions}
@@ -196,13 +196,13 @@ export const FirstExperimentTrialUI = ({next, replay, trial_data, question_order
               {questions_text.xy_question}
             </div>
             <div className="col-6">
-              <XYselection id="energy_emotion_question" width={220} height={220} onUpdate={xy_click} disabled={disable_buttons}/>
+              <XYselection id="energy_emotion_question" width={220} height={220} onUpdate={xy_click} disabled={disable_questions}/>
             </div>
           </div>
 
           <div className="trial-question">
             <label htmlFor="taste_question">{questions_text.taste_question}</label>
-            <ComboBox id="taste_question" options={taste_options} disabled={disable_buttons}/>
+            <ComboBox id="taste_question" options={taste_options} disabled={disable_questions} prevent_keypress={true}/>
           </div>
         </div>
       </div>
@@ -223,7 +223,7 @@ export const FirstExperimentTrialUI = ({next, replay, trial_data, question_order
   );
 };
 
-export const SecondExperimentTrialUI = ({next, replay, trial_data, disable_buttons}) => {
+export const SecondExperimentTrialUI = ({next, replay, trial_data, disable_buttons, disable_question}) => {
   const [error, setError] = React.useState(null);
 
   const handle_next = () => {
@@ -254,7 +254,7 @@ export const SecondExperimentTrialUI = ({next, replay, trial_data, disable_butto
           {second_experiment_question}
           <br/>
           <div className="text-center second-experiment-question">
-            <ComboBox id="question" options={numbered_options} disabled={disable_buttons}/>
+            <ComboBox id="question" options={numbered_options} disabled={disable_question}/>
           </div>
           <br/>
           {second_experiment_hear_again}

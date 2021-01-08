@@ -16,6 +16,7 @@ export class FirstExperimentBlock extends React.Component {
     trial_idx: 0,
     on_pause: false,
     is_playing: true,
+    play_count: 0,
   }
 
   constructor({next, data, question_order, audio_controller}) {
@@ -73,7 +74,6 @@ export class FirstExperimentBlock extends React.Component {
 
   componentDidMount() {
     this.start_time = new Date().getTime();
-    this.play_count = 0
     this.playTrial(this.state.trial_idx);
   }
 
@@ -82,14 +82,13 @@ export class FirstExperimentBlock extends React.Component {
 
     this.setState({on_pause: false});
     this.start_time = new Date().getTime();
-    this.play_count = 0
     this.playTrial(trial_idx);
   }
 
   playTrial = (trial_idx) => {
-    this.play_count += 1
     this.audio_controller.play(this.trial_sequence[trial_idx]);
-    this.setState({is_playing: true});
+    this.setState({is_playing: true,
+                   play_count: this.state.play_count + 1});
   }
 
   startPause = () => {
@@ -97,13 +96,14 @@ export class FirstExperimentBlock extends React.Component {
     const trial_data = this.data.trials[trial_idx];
 
     trial_data.RT = new Date().getTime() - this.start_time;
-    trial_data.play_count = this.play_count
+    trial_data.play_count = this.state.play_count;
 
     ls.set("data", this.data);
 
     if (trial_idx < this.trial_num - 1) {
       this.setState({on_pause: true,
-                     trial_idx: trial_idx + 1,});
+                     trial_idx: trial_idx + 1,
+                     play_count: 0});
       ls.set(this.ls_prefix + "trial_idx", trial_idx + 1);
 
       const pause_path = this.pause_sequence[trial_idx];
@@ -127,7 +127,7 @@ export class FirstExperimentBlock extends React.Component {
   }
 
   render() {
-    const { trial_idx, on_pause, enable_pause_continue } = this.state;
+    const { trial_idx, on_pause, enable_pause_continue, play_count } = this.state;
     const trial_data = this.data.trials[trial_idx];
 
     if (on_pause) {
@@ -144,7 +144,8 @@ export class FirstExperimentBlock extends React.Component {
                                 replay={() => this.playTrial(trial_idx)} 
                                 trial_data={trial_data} 
                                 question_order={this.question_order} 
-                                disable_buttons={this.state.is_playing} 
+                                disable_buttons={this.state.is_playing}
+                                disable_questions={this.state.is_playing && play_count === 1}
                                 key={trial_idx} />      
       );
     }

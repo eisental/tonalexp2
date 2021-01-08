@@ -114,10 +114,9 @@ class App extends React.Component {
     INTRO: 2,
     FORM: 3,
     EXPERIMENT1: 4,
-    BREAK: 5,
-    EXPERIMENT2: 6,
-    FEEDBACK: 7,
-    FINISH: 8,
+    EXPERIMENT2: 5,
+    FEEDBACK: 6,
+    FINISH: 7,
   }
 
   state = {
@@ -149,7 +148,7 @@ class App extends React.Component {
         return new_step + 1;
       }
     }
-    else if (new_step === this.steps.BREAK) {
+    else if (new_step === this.steps.EXPERIMENT1 + 1) {
       // Show second experiment and break only on second session
       if (this.data.session_number === 1)
         return this.steps.FINISH;
@@ -354,8 +353,6 @@ class App extends React.Component {
         return <FormScreen next={this.nextStep} data={this.data} key={step} />;
       case this.steps.EXPERIMENT1:
         return <FirstExperiment data={this.data} next={this.nextStep} key={step} />;
-      case this.steps.BREAK:
-        return <BreakScreen next={this.nextStep} key={step} />;
       case this.steps.EXPERIMENT2:
         return <SecondExperiment data={this.data} next={this.nextStep} key={step} />;
       case this.steps.FEEDBACK:

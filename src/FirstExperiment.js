@@ -163,7 +163,8 @@ export class FirstExperiment extends React.Component {
                                 trial_data={null} 
                                 question_order={this.question_order} 
                                 key={step} 
-                                disable_buttons={this.state.is_playing} />
+                                disable_buttons={this.state.is_playing}
+                                disable_questions={this.state.is_playing} /> // when training we don't count replays.
       );
     case this.steps.EXPERIMENT_INFO:
       return <InfoScreen info={first_experiment_training_end} next={this.nextStep} key={step} />;

@@ -93,7 +93,10 @@ export const ButtonTable = ({labels, values, disabled, next}) => {
   );
 };
 
-export const ComboBox = ({id, options, disabled}) => {
+export const ComboBox = ({id, options, disabled, prevent_keypress}) => {
+  const keypress_event = prevent_keypress ?
+        (e => {e.preventDefault(); return false; }) : null;
+
   if (disabled) {
     return (
       <select id={id} name={id} defaultValue="" disabled>
@@ -104,7 +107,7 @@ export const ComboBox = ({id, options, disabled}) => {
   }
   else {
     return (
-      <select id={id} name={id} defaultValue="">
+      <select id={id} name={id} defaultValue="" onKeyDown={keypress_event}>
         <option disabled value=""></option>
         {options.map(opt => <option value={opt} key={opt}>{opt}</option>)}
       </select>

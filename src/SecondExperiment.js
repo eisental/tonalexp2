@@ -19,6 +19,7 @@ export class SecondExperiment extends React.Component {
     show_info: true,
     on_pause: false,
     is_playing: true,
+    play_count: 0,
   }
 
   constructor({data, next, audio_controller}) {
@@ -88,14 +89,12 @@ export class SecondExperiment extends React.Component {
   nextTrial = () => {
     this.setState({on_pause: false});
     this.start_time = new Date().getTime();
-    this.play_count = 0
     this.playTrial(this.state.trial_idx);
   }
 
   startTrials = () => {
     this.setState({show_info: false});
     this.start_time = new Date().getTime();
-    this.play_count = 0
     this.playTrial(this.state.trial_idx);
 
     ls.set(this.ls_prefix + "show_info", false);
@@ -105,13 +104,14 @@ export class SecondExperiment extends React.Component {
     const { trial_idx } = this.state;
     const trial_data = this.data.trials[trial_idx + this.first_trial_data];
     trial_data.RT = new Date().getTime() - this.start_time;
-    trial_data.play_count = this.play_count
+    trial_data.play_count = this.state.play_count;
     ls.set("data", this.data);
 
     if (trial_idx < this.num_trials - 1) {
       this.setState({on_pause: true,
                      trial_idx: trial_idx + 1,
-                     is_playing: true});
+                     is_playing: true,
+                     play_count: 0});
       ls.set(this.ls_prefix + "trial_idx", trial_idx + 1);
       this.audio_controller.play(part_two_noise_path);
     }
@@ -121,13 +121,13 @@ export class SecondExperiment extends React.Component {
   }
   
   playTrial = (trial_idx) => {
-    this.play_count += 1
     this.audio_controller.play(this.sequence[trial_idx][0]);
-    this.setState({is_playing: true});
+    this.setState({is_playing: true,
+                   play_count: this.state.play_count + 1});
   }
 
   render() {
-    const { trial_idx, show_info, is_loading, is_playing, on_pause } = this.state;
+    const { trial_idx, show_info, is_loading, is_playing, on_pause, play_count } = this.state;
     if (is_loading) {
       return <LoadingScreen/>;
     }
@@ -151,7 +151,8 @@ export class SecondExperiment extends React.Component {
         <SecondExperimentTrialUI next={this.startPause}
                                  replay={() => this.playTrial(trial_idx)}
                                  trial_data={trial_data}
-                                 disable_buttons={is_playing} />
+                                 disable_buttons={is_playing} 
+                                 disable_question={is_playing && play_count === 1}/>
       );
     }
   }
