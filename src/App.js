@@ -10,6 +10,7 @@ import { SecondExperiment } from './SecondExperiment.js';
 import { other_instrument, str_to_instrument, music_key_to_idx } from './audio_mapping.js';
 import { intro_texts, before_break_text, after_break_text } from './texts.js';
 
+
 const BREAK_LENGTH = 10 * 60; // break length between experiment 1 and 2 in seconds.
 
 const FinishScreen = ({data, done_saving}) => {
